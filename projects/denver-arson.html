@@ -11,7 +11,7 @@
         #project-content .project-lede { font-size: 1.12em; margin-bottom: 2em; }
         #project-content .project-meta { margin: 0 0 2em; font-size: .95em; }
         #project-content figure { margin: 2em 0; text-align: center; }
-        #project-content figure img { max-height: 520px; object-fit: contain; }
+        #project-content figure img { max-height: 560px; object-fit: contain; }
         #project-content figcaption { color: #666; font-size: .9em; margin-top: -.8em; }
         #project-content pre { text-align: left; font-size: .82em; line-height: 1.55; }
         #project-content .results { padding: 1em 1.25em; border: 1px solid #d6d6d6; margin: 1.5em 0; }
@@ -32,45 +32,37 @@
     <p class="project-meta"><strong>Tools:</strong> Python &bull; pandas &bull; NumPy &bull; scikit-learn &bull; Matplotlib &bull; SQL Server &bull; QGIS</p>
 
     <h2>Overview</h2>
-    <p>Denver publishes a large open dataset containing reported crimes and geographic coordinates. I used this data to investigate whether clustering methods could identify meaningful spatial patterns in arson incidents.</p>
-    <p>The project compares two approaches. KMeans uses Euclidean distance and requires the number of clusters to be specified in advance. DBSCAN instead identifies dense regions, can treat observations as noise, and can use the <strong>Haversine distance</strong> to better represent distances between latitude/longitude coordinates.</p>
+    <p>I used Denver's public crime data to investigate whether unsupervised learning could identify meaningful spatial patterns in reported arson incidents. The project compares KMeans, which requires a predefined number of clusters, with DBSCAN, which identifies dense regions and can classify observations as noise.</p>
 
     <h2>Data &amp; Preparation</h2>
-    <p>The original crime dataset contained more than <strong>500,000 records and 19 fields</strong>. I filtered the data to the <strong>Arson</strong> offense category, leaving 719 coordinate observations for clustering. SQL Server was used for filtering and Python was used for modeling.</p>
-    <figure><img src="https://user-images.githubusercontent.com/92491074/139138213-01b623aa-3e24-4010-badd-b6dd5983fb26.png" alt="Crime data in SQL" /><figcaption>Crime data prepared for analysis.</figcaption></figure>
-    <p>The Python workflow connects directly to SQL Server and reduces the dataset to the latitude/longitude coordinates required by the clustering algorithms:</p>
-    <pre><code>server = 'DESKTOP-00EIBV3'
-database = 'Crime Data'
+    <p>The original crime dataset contained more than <strong>500,000 records across 19 fields</strong>. I filtered it to the <strong>Arson</strong> offense category and retained records with geographic coordinates, leaving 719 observations for clustering. SQL Server handled the initial filtering and Python handled the modeling.</p>
+    <figure><img src="../images/Portfolio%20Images/Arson%20Project/Image%201.png" alt="Denver crime data prepared for analysis" /><figcaption>Crime data prepared for the clustering analysis.</figcaption></figure>
+    <pre><code>sql = """
+SELECT *
+FROM [Denver Crime]
+WHERE OFFENSE_CATEGORY_ID = 'arson'
+"""
 
-conn = pyodbc.connect(
-    'DRIVER={ODBC Driver 17 for SQL Server};'
-    'SERVER=' + server + ';'
-    'DATABASE=' + database + ';'
-    'Trusted_Connection=yes;'
-)
-
-sql = "SELECT * FROM [Denver Crime] WHERE OFFENSE_CATEGORY_ID = 'arson'"
 crime_data = pandas.read_sql(sql, conn)
 coordinates = crime_data[['GEO_LAT', 'GEO_LON']].to_numpy()</code></pre>
 
     <h2>KMeans</h2>
-    <p>KMeans assigns every observation to a cluster, so the first question is how many clusters to use. I used the <strong>Elbow Method</strong> to compare within-cluster sum of squares across candidate values of K. The resulting curve suggested <strong>four clusters</strong>.</p>
+    <p>KMeans assigns every observation to a cluster, so the first modeling decision is the value of K. I used the <strong>Elbow Method</strong> to compare within-cluster sum of squares across candidate values. The curve suggested <strong>four clusters</strong> as a reasonable balance between model complexity and fit.</p>
+    <figure><img src="../images/Portfolio%20Images/Arson%20Project/Image%202.png" alt="KMeans elbow method" /><figcaption>Elbow method used to select the number of KMeans clusters.</figcaption></figure>
     <pre><code>wcss = []
 for k in range(1, 10):
-    model = KMeans(n_clusters=k, init='random', algorithm='full')
+    model = KMeans(n_clusters=k, init='random')
     model.fit(coordinates)
     wcss.append(model.inertia_)
 
 plt.plot(range(1, 10), wcss)
-plt.title('The Elbow Method')
 plt.xlabel('Number of Clusters')
 plt.ylabel('WCSS')
 plt.show()</code></pre>
-    <figure><img src="https://user-images.githubusercontent.com/92491074/139121765-b6c6ad83-9d44-4d44-b1b5-7730ed2a76ff.png" alt="KMeans elbow plot" /><figcaption>Elbow method used to select K = 4.</figcaption></figure>
-    <p>With four clusters selected, I fit the final KMeans model and exported the cluster assignments and centroids for visualization in QGIS.</p>
 
     <h2>DBSCAN</h2>
-    <p>DBSCAN provides a useful contrast because it does not require a predefined number of clusters and can explicitly identify noise. Because latitude and longitude lie on a sphere rather than a flat Cartesian plane, I used the Haversine metric with coordinates converted to radians.</p>
+    <p>DBSCAN provides a different approach. It does not require the number of clusters to be specified in advance and can identify observations that do not belong to dense regions. Because latitude and longitude represent positions on a sphere, I used the <strong>Haversine distance</strong> rather than treating the coordinates as ordinary Cartesian values.</p>
+    <figure><img src="../images/Portfolio%20Images/Arson%20Project/Image%206.png" alt="DBSCAN clustering analysis" /><figcaption>DBSCAN analysis of spatial density.</figcaption></figure>
     <pre><code>dbscan = DBSCAN(
     eps=1 / 6371.008,
     metric='haversine',
@@ -79,22 +71,21 @@ plt.show()</code></pre>
 )
 
 dbscan.fit(np.radians(coordinates))</code></pre>
-    <p>After experimenting with the neighborhood radius and minimum sample count, the selected parameters produced a substantially different structure from KMeans: dense groups were identified while roughly <strong>10% of observations were treated as noise</strong>.</p>
-    <figure><img src="https://user-images.githubusercontent.com/92491074/139137712-f7a916af-74e2-4a26-94ce-802cd975ff82.png" alt="DBSCAN noise" /><figcaption>Observations identified as noise by DBSCAN.</figcaption></figure>
+    <p>After testing the neighborhood radius and minimum sample count, the selected model identified dense regions while treating a meaningful subset of observations as noise. This was useful for distinguishing concentrated spatial patterns from isolated incidents.</p>
 
     <h2>Geospatial Visualization</h2>
-    <p>To move beyond scatter plots, I exported the cluster assignments and coordinates for use in <strong>QGIS</strong>. This made it possible to overlay the results on a map of Denver and inspect the spatial structure of the models.</p>
-    <figure><img src="https://user-images.githubusercontent.com/92491074/139150042-872f4fac-2200-454c-9984-636f252bdc57.png" alt="KMeans model in QGIS" /><figcaption>KMeans clusters visualized geographically.</figcaption></figure>
-    <figure><img src="https://user-images.githubusercontent.com/92491074/139150106-0992f33b-cbe4-4ba2-9ef9-488764edc3c7.png" alt="DBSCAN noise in QGIS" /><figcaption>DBSCAN noise displayed as a separate geographic layer.</figcaption></figure>
+    <p>I exported the cluster assignments and coordinates to <strong>QGIS</strong> to inspect the results geographically. Mapping the clusters provided more useful context than model output alone and made the differences between density-based and centroid-based clustering easier to interpret.</p>
+    <figure><img src="../images/Portfolio%20Images/Arson%20Project/Image%208.png" alt="Arson clustering results in QGIS" /><figcaption>Cluster results visualized geographically in QGIS.</figcaption></figure>
+    <figure><img src="../images/Portfolio%20Images/Arson%20Project/Image%2011.png" alt="Arson spatial analysis in QGIS" /><figcaption>Geospatial view of the modeled arson patterns.</figcaption></figure>
 
     <h2>Key Takeaways</h2>
     <div class="results"><ul>
-        <li><strong>KMeans:</strong> produced four clusters and assigned every observation to one of them.</li>
-        <li><strong>DBSCAN:</strong> identified dense regions without requiring a predefined cluster count and separated noisy observations from those regions.</li>
-        <li><strong>Distance matters:</strong> using Haversine distance is more appropriate than treating latitude/longitude as ordinary Cartesian coordinates.</li>
-        <li><strong>Visualization matters:</strong> moving the results into QGIS made the geographic structure considerably easier to interpret than model output alone.</li>
+        <li><strong>KMeans</strong> provided a simple partition of the incidents into four spatial groups.</li>
+        <li><strong>DBSCAN</strong> offered a more flexible view of the data by identifying dense regions without requiring a cluster count and separating noise.</li>
+        <li><strong>Distance selection matters</strong> for geographic data; Haversine distance better represents separation between latitude/longitude coordinates.</li>
+        <li><strong>Visualization is critical</strong> for geospatial analytics. QGIS made the model outputs substantially easier to interpret in geographic context.</li>
     </ul></div>
-    <p>This project was primarily an exploration of geospatial analytics and clustering methodology. The models identify statistical patterns in reported incidents; they should not be interpreted as causal explanations or predictions of future crime.</p>
+    <p>This project was an exploration of geospatial analytics and clustering methodology. The models identify statistical patterns in reported incidents; they should not be interpreted as causal explanations or predictions of future crime.</p>
 </article>
 </div>
 <script src="../assets/js/jquery.min.js"></script>
