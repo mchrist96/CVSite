@@ -9,7 +9,8 @@
     <style>
         #project-content { max-width: 1000px; }
         #project-content .project-lede { font-size: 1.12em; margin-bottom: 2em; }
-        #project-content .project-meta { margin: 0 0 2em; font-size: .95em; }
+        #project-content .project-meta { margin: 0 0 1.5em; font-size: .95em; }
+        #project-content .project-note { margin: 0 0 2.25em; padding: 1em 1.25em; border-left: 3px solid #d6d6d6; background: #f7f7f7; color: #555; font-size: .92em; }
         #project-content figure { margin: 2em 0; text-align: center; }
         #project-content figure img { max-height: 560px; object-fit: contain; }
         #project-content figcaption { color: #666; font-size: .9em; margin-top: -.8em; }
@@ -30,6 +31,7 @@
     <h1>Denver Arson Clustering</h1>
     <p class="project-lede">A geospatial clustering project using Denver crime data to compare <strong>KMeans</strong> and <strong>DBSCAN</strong>, with a focus on arson incidents and the trade-offs between Euclidean and spherical distance.</p>
     <p class="project-meta"><strong>Tools:</strong> Python &bull; pandas &bull; NumPy &bull; scikit-learn &bull; Matplotlib &bull; SQL Server &bull; QGIS</p>
+    <p class="project-note"><strong>Note:</strong> Some of the original images and portions of the original project write-up were unfortunately lost over time. As a result, this page has been repurposed as a shorter summary of the project, with some of the original analysis and implementation details condensed or omitted.</p>
 
     <h2>Overview</h2>
     <p>I used Denver's public crime data to investigate whether unsupervised learning could identify meaningful spatial patterns in reported arson incidents. The project compares KMeans, which requires a predefined number of clusters, with DBSCAN, which identifies dense regions and can classify observations as noise.</p>
