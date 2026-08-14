@@ -25,119 +25,95 @@
 	});
 
 	$window.on('load', function() {
-		window.setTimeout(function() {
-			$body.removeClass('is-preload');
-		}, 100);
+		window.setTimeout(function() { $body.removeClass('is-preload'); }, 100);
 	});
 
 	if (browser.mobile) {
 		$body.addClass('is-touch');
-		window.setTimeout(function() {
-			$window.scrollTop($window.scrollTop() + 1);
-		}, 0);
+		window.setTimeout(function() { $window.scrollTop($window.scrollTop() + 1); }, 0);
 	}
 
-	breakpoints.on('<=medium', function() {
-		$footer.insertAfter($main);
-	});
+	breakpoints.on('<=medium', function() { $footer.insertAfter($main); });
+	breakpoints.on('>medium', function() { $footer.appendTo($header); });
 
-	breakpoints.on('>medium', function() {
-		$footer.appendTo($header);
-	});
-
-	if (browser.name == 'ie' || browser.mobile)
-		settings.parallax = false;
+	if (browser.name == 'ie' || browser.mobile) settings.parallax = false;
 
 	if (settings.parallax) {
 		breakpoints.on('<=medium', function() {
 			$window.off('scroll.strata_parallax');
 			$header.css('background-position', '');
 		});
-
 		breakpoints.on('>medium', function() {
 			$header.css('background-position', 'left 0px');
 			$window.on('scroll.strata_parallax', function() {
 				$header.css('background-position', 'left ' + (-1 * (parseInt($window.scrollTop()) / settings.parallaxFactor)) + 'px');
 			});
 		});
-
-		$window.on('load', function() {
-			$window.triggerHandler('scroll');
-		});
+		$window.on('load', function() { $window.triggerHandler('scroll'); });
 	}
 
 	$window.on('load', function() {
 		$('#two').poptrox({
 			caption: function($a) { return $a.next('h3').text(); },
-			overlayColor: '#2c2c2c',
-			overlayOpacity: 0.85,
-			popupCloserText: '',
-			popupLoaderText: '',
-			selector: '.work-item a.image',
-			usePopupCaption: true,
-			usePopupDefaultStyling: false,
-			usePopupEasyClose: false,
-			usePopupNav: true,
+			overlayColor: '#2c2c2c', overlayOpacity: 0.85,
+			popupCloserText: '', popupLoaderText: '', selector: '.work-item a.image',
+			usePopupCaption: true, usePopupDefaultStyling: false,
+			usePopupEasyClose: false, usePopupNav: true,
 			windowMargin: (breakpoints.active('<=small') ? 0 : 50)
 		});
 	});
 
-	// Standardize sidebar navigation and visual treatment across every page.
+	// Keep the complete sidebar identical on the home, resume, portfolio, and project pages.
 	$window.on('load', function() {
 		var isProjectPage = document.getElementById('project-content') !== null;
-		var $nav = $('#site-nav');
-		var homePath = isProjectPage ? '../index.html' : 'index.html';
-		var resumePath = isProjectPage ? '../resume.html' : 'resume.html';
-		var portfolioPath = isProjectPage ? '../portfolio.html' : 'portfolio.html';
-
-		if ($nav.length) {
-			$nav.html('<ul>' +
-				'<li><a href="' + homePath + '">Main &amp; Contact</a></li>' +
-				'<li><a href="' + resumePath + '">Resume</a></li>' +
-				'<li><a href="' + portfolioPath + '">Portfolio</a></li>' +
-				'</ul>');
-		} else if (isProjectPage) {
-			var nav = document.createElement('nav');
-			nav.id = 'site-nav';
-			nav.setAttribute('aria-label', 'Page navigation');
-			nav.innerHTML = '<ul>' +
-				'<li><a href="' + homePath + '">Main &amp; Contact</a></li>' +
-				'<li><a href="' + resumePath + '">Resume</a></li>' +
-				'<li><a href="' + portfolioPath + '">Portfolio</a></li>' +
-				'</ul>';
-			var inner = document.querySelector('#header .inner');
-			if (inner) inner.appendChild(nav);
-			$nav = $(nav);
-		}
-
+		var basePath = isProjectPage ? '../' : '';
 		var $inner = $('#header .inner');
-		if ($inner.length && !$inner.find('.sidebar-visual').length) {
-			var basePath = isProjectPage ? '../' : '';
-			$inner.append('<img class="sidebar-visual" src="' + basePath + 'images/sidebar-data.svg" alt="Data analytics graphic" />');
-		}
+		if (!$inner.length) return;
 
-		if ($nav.length) {
-			$nav.css({
-				'margin-top': '2em',
-				'padding-top': '1.5em',
-				'border-top': '1px solid rgba(255,255,255,0.15)'
-			});
-			$nav.find('ul').css({ 'list-style': 'none', 'margin': '0', 'padding': '0' });
-			$nav.find('li').css({ 'margin': '0.75em 0' });
-			$nav.find('a').css({ 'font-size': '1.2em', 'text-decoration': 'none' });
-		}
+		// Remove page-specific sidebar elements so every page gets the same version.
+		$inner.find('#site-nav, .sidebar-visual, #sidebar-graphic').remove();
+		$inner.css({ 'position': 'relative', 'top': '-30px' });
 
-		$('.sidebar-visual').css({
-			'display': 'block',
-			'width': '100%',
-			'max-width': '260px',
-			'height': 'auto',
-			'margin': '2.75em auto 0',
-			'opacity': '0.85'
+		// Use the same identity block as the main page, including on individual project pages.
+		$inner.find('h1').first().html('<strong>Mitchell Christensen<br />Global Data Analytics Lead</strong>');
+		$inner.find('a.image.avatar').first().attr('href', basePath + 'index.html');
+
+		var nav = document.createElement('nav');
+		nav.id = 'site-nav';
+		nav.setAttribute('aria-label', 'Page navigation');
+		nav.innerHTML = '<ul>' +
+			'<li><a href="' + basePath + 'index.html">Main &amp; Contact</a></li>' +
+			'<li><a href="' + basePath + 'resume.html">Resume</a></li>' +
+			'<li><a href="' + basePath + 'portfolio.html">Portfolio</a></li>' +
+			'</ul>';
+		$inner.append(nav);
+
+		$(nav).css({
+			'margin-top': '2em',
+			'padding-top': '1.5em',
+			'border-top': '1px solid rgba(255,255,255,0.15)'
 		});
+		$(nav).find('ul').css({ 'list-style': 'none', 'margin': '0', 'padding': '0' });
+		$(nav).find('li').css({ 'margin': '0.75em 0' });
+		$(nav).find('a').css({ 'font-size': '1.2em', 'text-decoration': 'none' });
+
+		// Same analytical graphic as the main page, rendered directly so it works on project pages too.
+		var graphic = document.createElement('div');
+		graphic.id = 'sidebar-graphic';
+		graphic.setAttribute('aria-hidden', 'true');
+		graphic.innerHTML = '<svg viewBox="0 0 150 110" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+			'<path d="M12 88H138M12 88V18" stroke="currentColor" stroke-width="1.5"/>' +
+			'<path d="M20 75L43 61L62 67L84 43L104 51L132 23" stroke="currentColor" stroke-width="2"/>' +
+			'<circle cx="43" cy="61" r="3" fill="currentColor"/>' +
+			'<circle cx="84" cy="43" r="3" fill="currentColor"/>' +
+			'<circle cx="132" cy="23" r="3" fill="currentColor"/>' +
+			'<path d="M24 42L31 35L38 42M116 72L123 65L130 72" stroke="currentColor" stroke-width="1.5"/>' +
+			'</svg>';
+		$inner.append(graphic);
+		$(graphic).css({ 'margin': '2.5em auto 0', 'width': '150px', 'height': '110px', 'opacity': '.8' });
+		$(graphic).find('svg').css({ 'width': '100%', 'height': '100%' });
 	});
 
-	// Project pages use the same visual language as the resume and portfolio.
 	if (document.getElementById('project-content')) {
 		$body.addClass('project-page');
 		var stylesheet = document.createElement('link');
