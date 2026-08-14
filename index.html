@@ -10,6 +10,17 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<style>
+			#site-nav {
+				margin-top: 2em;
+				border-top: 1px solid rgba(255,255,255,0.15);
+				padding-top: 1.5em;
+			}
+			#site-nav ul { list-style: none; margin: 0; padding: 0; }
+			#site-nav li { margin: 0.5em 0; }
+			#site-nav a { text-decoration: none; }
+			#site-nav a:hover { text-decoration: underline; }
+		</style>
 	</head>
 	<body class="is-preload">
 		<header id="header">
@@ -18,11 +29,19 @@
 				<h1><strong>Mitchell Christensen<br />
 					Global Data Analytics Lead<br />
 					Analytics &bull; Data &bull; Strategy</strong></h1>
+
+				<nav id="site-nav" aria-label="Page sections">
+					<ul>
+						<li><a href="#resume">Resume</a></li>
+						<li><a href="#portfolio">Portfolio</a></li>
+						<li><a href="#contact">Contact</a></li>
+					</ul>
+				</nav>
 			</div>
 		</header>
 
 		<div id="main">
-			<section id="one">
+			<section id="resume">
 				<header class="major">
 					<h2>Resume</h2>
 				</header>
@@ -72,7 +91,7 @@
 
 			</section>
 
-			<section id="two">
+			<section id="portfolio">
 				<header class="major">
 					<h2>Portfolio</h2>
 					<div class="row">
@@ -90,7 +109,7 @@
 				</header>
 			</section>
 
-			<section id="three">
+			<section id="contact">
 				<h2>Get In Touch</h2>
 				<div>
 					<div class="col-4 col-12-small">
