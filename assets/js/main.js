@@ -14,7 +14,7 @@
 		settings = {
 				parallax: true,
 				parallaxFactor: 20
-		};
+			};
 
 	breakpoints({
 		xlarge:  [ '1281px',  '1800px' ],
@@ -84,27 +84,30 @@
 
 	// Standardize sidebar navigation and visual treatment across every page.
 	$window.on('load', function() {
+		var isProjectPage = document.getElementById('project-content') !== null;
 		var $nav = $('#site-nav');
+		var homePath = isProjectPage ? '../index.html' : 'index.html';
+		var resumePath = isProjectPage ? '../resume.html' : 'resume.html';
+		var portfolioPath = isProjectPage ? '../portfolio.html' : 'portfolio.html';
+
 		if ($nav.length) {
 			$nav.html('<ul>' +
-				'<li><a href="index.html">Main &amp; Contact</a></li>' +
-				'<li><a href="resume.html">Resume</a></li>' +
-				'<li><a href="portfolio.html">Portfolio</a></li>' +
-			'</ul>');
-		}
-
-		var isProjectPage = document.getElementById('project-content') !== null;
-		if (!$nav.length && isProjectPage) {
+				'<li><a href="' + homePath + '">Main &amp; Contact</a></li>' +
+				'<li><a href="' + resumePath + '">Resume</a></li>' +
+				'<li><a href="' + portfolioPath + '">Portfolio</a></li>' +
+				'</ul>');
+		} else if (isProjectPage) {
 			var nav = document.createElement('nav');
 			nav.id = 'site-nav';
 			nav.setAttribute('aria-label', 'Page navigation');
 			nav.innerHTML = '<ul>' +
-				'<li><a href="../index.html">Main &amp; Contact</a></li>' +
-				'<li><a href="../resume.html">Resume</a></li>' +
-				'<li><a href="../portfolio.html">Portfolio</a></li>' +
-			'</ul>';
+				'<li><a href="' + homePath + '">Main &amp; Contact</a></li>' +
+				'<li><a href="' + resumePath + '">Resume</a></li>' +
+				'<li><a href="' + portfolioPath + '">Portfolio</a></li>' +
+				'</ul>';
 			var inner = document.querySelector('#header .inner');
 			if (inner) inner.appendChild(nav);
+			$nav = $(nav);
 		}
 
 		var $inner = $('#header .inner');
@@ -112,6 +115,26 @@
 			var basePath = isProjectPage ? '../' : '';
 			$inner.append('<img class="sidebar-visual" src="' + basePath + 'images/sidebar-data.svg" alt="Data analytics graphic" />');
 		}
+
+		if ($nav.length) {
+			$nav.css({
+				'margin-top': '2em',
+				'padding-top': '1.5em',
+				'border-top': '1px solid rgba(255,255,255,0.15)'
+			});
+			$nav.find('ul').css({ 'list-style': 'none', 'margin': '0', 'padding': '0' });
+			$nav.find('li').css({ 'margin': '0.75em 0' });
+			$nav.find('a').css({ 'font-size': '1.2em', 'text-decoration': 'none' });
+		}
+
+		$('.sidebar-visual').css({
+			'display': 'block',
+			'width': '100%',
+			'max-width': '260px',
+			'height': 'auto',
+			'margin': '2.75em auto 0',
+			'opacity': '0.85'
+		});
 	});
 
 	// Project pages use the same visual language as the resume and portfolio.
