@@ -15,13 +15,16 @@
         #site-nav li { margin: .75em 0; }
         #site-nav a { font-size: 1.2em; text-decoration: none; }
         #site-nav a:hover { text-decoration: underline; }
+        #sidebar-graphic { margin: 2.5em auto 0; width: 150px; height: 110px; opacity: .8; }
+        #sidebar-graphic svg { width: 100%; height: 100%; }
         #profile { max-width: 900px; }
         #welcome { max-width: 900px; margin-bottom: 3em; }
-        #welcome h3 { color: #333; font-size: 1.35em; margin-bottom: .75em; }
+        #welcome h3 { color: #333; font-size: 1.5em; margin-bottom: .75em; }
         #contact { border-top: 1px solid #d6d6d6; padding-top: 2.25em; margin-top: 3em; }
         @media screen and (max-width: 980px) {
             #header { width: 100%; }
             #main { margin-left: 0; }
+            #sidebar-graphic { display: none; }
         }
     </style>
 </head>
@@ -29,7 +32,7 @@
 <header id="header">
     <div class="inner" style="position:relative;top:-30px">
         <a href="index.html" class="image avatar"><img src="images/avatar5.jpeg" alt="" /></a>
-        <h1><strong>Mitchell Christensen<br />Global Data Analytics Lead<br />Analytics &bull; Data &bull; Strategy</strong></h1>
+        <h1><strong>Mitchell Christensen<br />Global Data Analytics Lead</strong></h1>
         <nav id="site-nav" aria-label="Page navigation">
             <ul>
                 <li><a href="index.html">Main &amp; Contact</a></li>
@@ -37,13 +40,22 @@
                 <li><a href="portfolio.html">Portfolio</a></li>
             </ul>
         </nav>
+        <div id="sidebar-graphic" aria-hidden="true">
+            <svg viewBox="0 0 150 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 88H138M12 88V18" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M20 75L43 61L62 67L84 43L104 51L132 23" stroke="currentColor" stroke-width="2"/>
+                <circle cx="43" cy="61" r="3" fill="currentColor"/>
+                <circle cx="84" cy="43" r="3" fill="currentColor"/>
+                <circle cx="132" cy="23" r="3" fill="currentColor"/>
+                <path d="M24 42L31 35L38 42M116 72L123 65L130 72" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+        </div>
     </div>
 </header>
 
 <div id="main">
     <section id="welcome">
-        <header class="major"><h2>Analytics, Data &amp; Strategy</h2></header>
-        <h3>Welcome to my personal site.</h3>
+        <header class="major"><h2>Welcome to my Personal Site!</h2></header>
         <p>This site serves as a central place to learn more about my professional experience, explore personal data and programming projects, and get in touch.</p>
         <p>Use the navigation to view my <strong>resume</strong> or explore my <strong>portfolio</strong> of personal projects.</p>
     </section>
