@@ -146,4 +146,25 @@
 		document.head.appendChild(stylesheet);
 	}
 
+	// Legacy project posts reference images hosted outside the repository.
+	// When one of those external images is unavailable, fall back to the
+	// locally stored project thumbnail so the page never shows a broken image.
+	$window.on('load', function() {
+		if (!document.getElementById('project-content')) return;
+
+		var title = (document.title || '').toLowerCase();
+		var fallback = title.indexOf('spotify') !== -1
+			? '../images/fulls/01.jpg'
+			: '../images/fulls/02.jpg';
+
+		$('#project-content img').each(function() {
+			this.addEventListener('error', function() {
+				if (this.dataset.fallbackApplied) return;
+				this.dataset.fallbackApplied = 'true';
+				this.src = fallback;
+				this.alt = 'Project image unavailable; showing project preview.';
+			});
+		});
+	});
+
 })(jQuery);
