@@ -62,7 +62,7 @@ plt.show()</code></pre>
 
     <h2>DBSCAN</h2>
     <p>DBSCAN provides a different approach. It does not require the number of clusters to be specified in advance and can identify observations that do not belong to dense regions. Because latitude and longitude represent positions on a sphere, I used the <strong>Haversine distance</strong> rather than treating the coordinates as ordinary Cartesian values.</p>
-    <figure><img src="../images/Portfolio%20Images/Arson%20Project/Image 6.png" alt="DBSCAN clustering analysis" /><figcaption>DBSCAN analysis of spatial density.</figcaption></figure>
+    <figure><img src="../images/Portfolio%20Images/Arson%20Project/Image%206.png" alt="DBSCAN clustering analysis" /><figcaption>DBSCAN analysis of spatial density.</figcaption></figure>
     <pre><code>dbscan = DBSCAN(
     eps=1 / 6371.008,
     metric='haversine',
@@ -75,8 +75,8 @@ dbscan.fit(np.radians(coordinates))</code></pre>
 
     <h2>Geospatial Visualization</h2>
     <p>I exported the cluster assignments and coordinates to <strong>QGIS</strong> to inspect the results geographically. Mapping the clusters provided more useful context than model output alone and made the differences between density-based and centroid-based clustering easier to interpret.</p>
-    <figure><img src="../images/Portfolio%20Images/Arson%20Project/Image 8.png" alt="Arson clustering results in QGIS" /><figcaption>Cluster results visualized geographically in QGIS.</figcaption></figure>
-    <figure><img src="../images/Portfolio%20Images/Arson%20Project/Image 11.png" alt="Arson spatial analysis in QGIS" /><figcaption>Geospatial view of the modeled arson patterns.</figcaption></figure>
+    <figure><img src="../images/Portfolio%20Images/Arson%20Project/Image%208.png" alt="Arson clustering results in QGIS" /><figcaption>Cluster results visualized geographically in QGIS.</figcaption></figure>
+    <figure><img src="../images/Portfolio%20Images/Arson%20Project/Image%2011.png" alt="Arson spatial analysis in QGIS" /><figcaption>Geospatial view of the modeled arson patterns.</figcaption></figure>
 
     <h2>Key Takeaways</h2>
     <div class="results"><ul>
