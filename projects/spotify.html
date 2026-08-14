@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>My Own Spotify Wrapped</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+</head>
+<body class="is-preload">
+    <header id="header">
+        <div class="inner">
+            <a href="../index.html" class="image avatar"><img src="../images/avatar5.jpeg" alt="" /></a>
+            <h1><strong>My Own Spotify Wrapped</strong></h1>
+        </div>
+    </header>
+    <div id="main">
+        <article>
+            <a href="../index.html">&larr; Back to CV</a>
+            <div id="project-content">Loading project...</div>
+        </article>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        fetch('https://raw.githubusercontent.com/mchrist96/CVSite/main/_posts/2021-10-16-Spotify-Wrapped-Analysis.md')
+            .then(response => response.text())
+            .then(markdown => document.getElementById('project-content').innerHTML = marked.parse(markdown))
+            .catch(() => document.getElementById('project-content').innerHTML = '<p>Unable to load this project.</p>');
+    </script>
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/jquery.poptrox.min.js"></script>
+    <script src="../assets/js/browser.min.js"></script>
+    <script src="../assets/js/breakpoints.min.js"></script>
+    <script src="../assets/js/util.js"></script>
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>
