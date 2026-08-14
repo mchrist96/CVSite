@@ -82,6 +82,38 @@
 		});
 	});
 
+	// Standardize sidebar navigation and visual treatment across every page.
+	$window.on('load', function() {
+		var $nav = $('#site-nav');
+		if ($nav.length) {
+			$nav.html('<ul>' +
+				'<li><a href="index.html">Main &amp; Contact</a></li>' +
+				'<li><a href="resume.html">Resume</a></li>' +
+				'<li><a href="portfolio.html">Portfolio</a></li>' +
+			'</ul>');
+		}
+
+		var isProjectPage = document.getElementById('project-content') !== null;
+		if (!$nav.length && isProjectPage) {
+			var nav = document.createElement('nav');
+			nav.id = 'site-nav';
+			nav.setAttribute('aria-label', 'Page navigation');
+			nav.innerHTML = '<ul>' +
+				'<li><a href="../index.html">Main &amp; Contact</a></li>' +
+				'<li><a href="../resume.html">Resume</a></li>' +
+				'<li><a href="../portfolio.html">Portfolio</a></li>' +
+			'</ul>';
+			var inner = document.querySelector('#header .inner');
+			if (inner) inner.appendChild(nav);
+		}
+
+		var $inner = $('#header .inner');
+		if ($inner.length && !$inner.find('.sidebar-visual').length) {
+			var basePath = isProjectPage ? '../' : '';
+			$inner.append('<img class="sidebar-visual" src="' + basePath + 'images/sidebar-data.svg" alt="Data analytics graphic" />');
+		}
+	});
+
 	// Project pages use the same visual language as the resume and portfolio.
 	if (document.getElementById('project-content')) {
 		$body.addClass('project-page');
