@@ -11,6 +11,17 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<style>
+			/* Resume readability and spacing */
+			#main { color: #333333; }
+			#main p, #main li { color: #333333; }
+			#resume p { text-indent: 0; }
+			#resume .section-label { margin-top: 0; }
+			#resume .skills-section { margin-top: 2.5em; }
+			#resume .experience-entry,
+			#resume .education-entry { margin-bottom: 1.25em; }
+			#resume .experience-entry p,
+			#resume .education-entry p { margin-bottom: 0; }
+			#resume .profile { margin-bottom: 2em; }
 			#site-nav {
 				margin-top: 2em;
 				border-top: 1px solid rgba(255,255,255,0.15);
@@ -46,49 +57,60 @@
 					<h2>Resume</h2>
 				</header>
 
-				<p style="margin-bottom:0"><span style="font-weight:bold;">Profile:</span><br />
-				Analytical problem solver who enjoys learning new domains, understanding complex systems, and using data to solve interesting problems. Core expertise in analytics, with experience across banking, financial modeling, hotel pricing and optimization, and crime analytics. Experienced leading analytics teams, partnering with executives and customers, and turning ambiguous questions into measurable problems and actionable insights. I enjoy collaborating with talented people, learning from others, and working both independently and cross-functionally to improve products and processes.</p>
+				<div class="profile">
+					<p style="margin-bottom:0"><span style="font-weight:bold;">Profile:</span><br />
+					Analytical problem solver who enjoys learning new domains, understanding complex systems, and using data to solve interesting problems. Core expertise in analytics, with experience across banking, financial modeling, hotel pricing and optimization, and crime analytics. Experienced leading analytics teams, partnering with executives and customers, and turning ambiguous questions into measurable problems and actionable insights. I enjoy collaborating with talented people, learning from others, and working both independently and cross-functionally to improve products and processes.</p>
+				</div>
 
-				<p style="margin-bottom:0"><span style="font-weight:bold;">Experience:</span><br />
+				<p class="section-label" style="margin-bottom:0"><span style="font-weight:bold;">Experience:</span><br />
 
-				<p style="margin-bottom:0"><b>Auror,</b> Global <span style="float:right">Jan 2023 - Present</span><br />
-				<p style="margin-bottom:0"><i>Global Data Analytics Lead</i><br />
-				<p style="margin-bottom:0">• Lead a globally distributed analytics function supporting approximately <b>260 employees across 12+ teams in 4 countries</b>, partnering across customer operations, finance, communications, marketing, product, and engineering <br />
-				<p style="margin-bottom:0">• Partner with executive leadership, communications, and marketing to translate analytics into public-facing insights, contributing quantitative analysis to Auror's flagship <a href="https://www.auror.co/retail-crime-insights-report" target="_blank">Retail Crime Insights Report</a> and international media coverage <br />
-				<p style="margin-bottom:0">• Collaborate directly with <b>dozens of customers across 7 countries</b> on technical analytics requirements, reporting solutions, product enhancements, and data-driven decision making <br />
-				<p style="margin-bottom:0">• Support <b>$70M+ in ARR across customer deals</b> through direct customer engagement, analytical support, data storytelling, and product development <br />
-				<p style="margin-bottom:0">• Led process improvements and implemented <b>AI-enabled analytics workflows that increased ticket output by 81% YoY</b>, expanding operational capacity and improving team efficiency <br />
-				<p style="margin-bottom:0">• Established KPI tracking and developed data-driven recommendations supporting a company-wide goal to <b>reduce violent organized retail crime by 50% within five years</b> <br />
-				<p style="margin-bottom:15px">• Led analytics infrastructure modernization through <b>self-service BI tooling upgrades and creation of a governed semantic layer</b>, centralizing metric definitions, calculation logic, and dimensions so departments consistently query and interpret KPIs <br />
+				<div class="experience-entry">
+					<p><b>Auror,</b> Global <span style="float:right">Jan 2023 - Present</span><br />
+					<i>Global Data Analytics Lead</i><br />
+					• Lead a globally distributed analytics function supporting approximately <b>260 employees across 12+ teams in 4 countries</b>, partnering across customer operations, finance, communications, marketing, product, and engineering <br />
+					• Partner with executive leadership, communications, and marketing to translate analytics into public-facing insights, contributing quantitative analysis to Auror's flagship <a href="https://www.auror.co/retail-crime-insights-report" target="_blank">Retail Crime Insights Report</a> and international media coverage <br />
+					• Collaborate directly with <b>dozens of customers across 7 countries</b> on technical analytics requirements, reporting solutions, product enhancements, and data-driven decision making <br />
+					• Support <b>$70M+ in ARR across customer deals</b> through direct customer engagement, analytical support, data storytelling, and product development <br />
+					• Led process improvements and implemented <b>AI-enabled analytics workflows that increased ticket output by 81% YoY</b>, expanding operational capacity and improving team efficiency <br />
+					• Established KPI tracking and developed data-driven recommendations supporting a company-wide goal to <b>reduce violent organized retail crime by 50% within five years</b> <br />
+					• Led analytics infrastructure modernization through <b>self-service BI tooling upgrades and creation of a governed semantic layer</b>, centralizing metric definitions, calculation logic, and dimensions so departments consistently query and interpret KPIs</p>
+				</div>
 
-				<p style="margin-bottom:0"><b>Hotel Engine,</b> Denver, CO <span style="float:right">Jan 2022 - Jan 2023</span><br />
-				<p style="margin-bottom:0"><i>Senior Data Analyst</i><br />
-				<p style="margin-bottom:0">• Developed analytical solutions supporting financial analysis, hotel pricing, and business decision-making <br />
-				<p style="margin-bottom:0">• Led analysis supporting the implementation of dynamic pricing strategies <br />
-				<p style="margin-bottom:0">• Built and maintained reporting and analytical workflows using SQL, Snowflake, and Looker <br />
-				<p style="margin-bottom:15px">• Partnered with cross-functional stakeholders to translate business questions into data-driven recommendations <br />
+				<div class="experience-entry">
+					<p><b>Hotel Engine,</b> Denver, CO <span style="float:right">Jan 2022 - Jan 2023</span><br />
+					<i>Senior Data Analyst</i><br />
+					• Developed analytical solutions supporting financial analysis, hotel pricing, and business decision-making <br />
+					• Led analysis supporting the implementation of dynamic pricing strategies <br />
+					• Built and maintained reporting and analytical workflows using SQL, Snowflake, and Looker <br />
+					• Partnered with cross-functional stakeholders to translate business questions into data-driven recommendations</p>
+				</div>
 
-				<p style="margin-bottom:0"><b>Arvest Bank,</b> Fayetteville, AR <span style="float:right">Mar 2020 - Apr 2021</span><br />
-				<p style="margin-bottom:0"><i>Model Validation Analyst, Model Risk Management Group</i><br />
-				<p style="margin-bottom:0">• Performed model validations by analyzing data, statistical techniques, and theoretical frameworks <br />
-				<p style="margin-bottom:0">• Developed back-testing methodologies and built challenger models for various bank divisions <br />
-				<p style="margin-bottom:15px">• Applied machine learning techniques to models within the bank’s inventory <br />
+				<div class="experience-entry">
+					<p><b>Arvest Bank,</b> Fayetteville, AR <span style="float:right">Mar 2020 - Apr 2021</span><br />
+					<i>Model Validation Analyst, Model Risk Management Group</i><br />
+					• Performed model validations by analyzing data, statistical techniques, and theoretical frameworks <br />
+					• Developed back-testing methodologies and built challenger models for various bank divisions <br />
+					• Applied machine learning techniques to models within the bank’s inventory</p>
+				</div>
 
-				<p style="margin-bottom:0"><span style="font-weight:bold;">Education:</span><br />
-				<p style="margin-bottom:0"><b>University of Washington,</b> Seattle, WA <span style="float:right">Sep 2018 - Dec 2019</span><br />
-				<p style="margin-bottom:15px">Master of Science in Computational Finance and Risk Management, Applied Mathematics Department</p>
-				<p style="margin-bottom:0"><b>University of Florida,</b> Gainesville, FL <span style="float:right">Aug 2014 - May 2018</span><br />
-				Bachelor of Science in Finance, Warrington College of Business<br />
-				Bachelor of Arts in Economics, College of Liberal Arts and Sciences<br />
-				Minor in Interdisciplinary Study of Fine Arts</p>
+				<p class="section-label" style="margin-bottom:0"><span style="font-weight:bold;">Education:</span><br />
+				<div class="education-entry">
+					<p><b>University of Washington,</b> Seattle, WA <span style="float:right">Sep 2018 - Dec 2019</span><br />
+					Master of Science in Computational Finance and Risk Management, Applied Mathematics Department</p>
+					<p><b>University of Florida,</b> Gainesville, FL <span style="float:right">Aug 2014 - May 2018</span><br />
+					Bachelor of Science in Finance, Warrington College of Business<br />
+					Bachelor of Arts in Economics, College of Liberal Arts and Sciences<br />
+					Minor in Interdisciplinary Study of Fine Arts</p>
+				</div>
 
-				<p style="margin-bottom:0"><span style="font-weight:bold;">Programming and Computer Skills:</span><br />
-				<p style="margin-bottom:0">• Python (Pandas, NumPy, Scikit-Learn) <br />
-				<p style="margin-bottom:0">• SQL (Data Analysis, Database Development, Query Optimization) <br />
-				<p style="margin-bottom:0">• R (Data Analysis, Statistical Modeling, Data Visualization) <br />
-				<p style="margin-bottom:0">• Snowflake, Looker, Git, VS Code <br />
-				<p>• Excel, Word, PowerPoint <br />
-
+				<div class="skills-section">
+					<p class="section-label" style="margin-bottom:0"><span style="font-weight:bold;">Programming and Computer Skills:</span><br />
+					• Python (Pandas, NumPy, Scikit-Learn) <br />
+					• SQL (Data Analysis, Database Development, Query Optimization) <br />
+					• R (Data Analysis, Statistical Modeling, Data Visualization) <br />
+					• Snowflake, Looker, Git, VS Code <br />
+					• Excel, Word, PowerPoint</p>
+				</div>
 			</section>
 
 			<section id="portfolio">
