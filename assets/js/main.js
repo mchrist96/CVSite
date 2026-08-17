@@ -100,7 +100,7 @@
 		// Use the personal photo in every sidebar.
 		var photo = document.createElement('img');
 		photo.id = 'sidebar-photo';
-		photo.src = basePath + 'Self Photo.jpeg';
+		photo.src = basePath + 'images/Self Photo.jpeg';
 		photo.alt = 'Mitchell Christensen';
 		$inner.append(photo);
 		$(photo).css({
