@@ -32,10 +32,8 @@
     <p class="project-lede">A geospatial clustering project using Denver crime data to compare <strong>KMeans</strong> and <strong>DBSCAN</strong>, with a focus on arson incidents and the trade-offs between Euclidean and spherical distance.</p>
     <p class="project-meta"><strong>Tools:</strong> Python &bull; pandas &bull; NumPy &bull; scikit-learn &bull; Matplotlib &bull; SQL Server &bull; QGIS</p>
     <p class="project-note"><strong>Note:</strong> Some of the original images and portions of the original project write-up were unfortunately lost over time. As a result, this page has been repurposed as a shorter summary of the project, with some of the original analysis and implementation details condensed or omitted.</p>
-
     <h2>Overview</h2>
     <p>I used Denver's public crime data to investigate whether unsupervised learning could identify meaningful spatial patterns in reported arson incidents. The project compares KMeans, which requires a predefined number of clusters, with DBSCAN, which identifies dense regions and can classify observations as noise.</p>
-
     <h2>Data &amp; Preparation</h2>
     <p>The original crime dataset contained more than <strong>500,000 records across 19 fields</strong>. I filtered it to the <strong>Arson</strong> offense category and retained records with geographic coordinates, leaving 719 observations for clustering. SQL Server handled the initial filtering and Python handled the modeling.</p>
     <figure><img src="../images/Portfolio%20Images/Arson%20Project/Image%201.png" alt="Denver crime data prepared for analysis" /><figcaption>Crime data prepared for the clustering analysis.</figcaption></figure>
@@ -47,7 +45,6 @@ WHERE OFFENSE_CATEGORY_ID = 'arson'
 
 crime_data = pandas.read_sql(sql, conn)
 coordinates = crime_data[['GEO_LAT', 'GEO_LON']].to_numpy()</code></pre>
-
     <h2>KMeans</h2>
     <p>KMeans assigns every observation to a cluster, so the first modeling decision is the value of K. I used the <strong>Elbow Method</strong> to compare within-cluster sum of squares across candidate values. The curve suggested <strong>four clusters</strong> as a reasonable balance between model complexity and fit.</p>
     <figure><img src="../images/Portfolio%20Images/Arson%20Project/Image%202.png" alt="KMeans elbow method" /><figcaption>Elbow method used to select the number of KMeans clusters.</figcaption></figure>
@@ -61,7 +58,6 @@ plt.plot(range(1, 10), wcss)
 plt.xlabel('Number of Clusters')
 plt.ylabel('WCSS')
 plt.show()</code></pre>
-
     <h2>DBSCAN</h2>
     <p>DBSCAN provides a different approach. It does not require the number of clusters to be specified in advance and can identify observations that do not belong to dense regions. Because latitude and longitude represent positions on a sphere, I used the <strong>Haversine distance</strong> rather than treating the coordinates as ordinary Cartesian values.</p>
     <figure><img src="../images/Portfolio%20Images/Arson%20Project/Image%206.png" alt="DBSCAN clustering analysis" /><figcaption>DBSCAN analysis of spatial density.</figcaption></figure>
@@ -74,27 +70,19 @@ plt.show()</code></pre>
 
 dbscan.fit(np.radians(coordinates))</code></pre>
     <p>After testing the neighborhood radius and minimum sample count, the selected model identified dense regions while treating a meaningful subset of observations as noise. This was useful for distinguishing concentrated spatial patterns from isolated incidents.</p>
-
     <h2>Geospatial Visualization</h2>
     <p>I exported the cluster assignments and coordinates to <strong>QGIS</strong> to inspect the results geographically. Mapping the clusters provided more useful context than model output alone and made the differences between density-based and centroid-based clustering easier to interpret.</p>
     <figure><img src="../images/Portfolio%20Images/Arson%20Project/Image%208.png" alt="Arson clustering results in QGIS" /><figcaption>Cluster results visualized geographically in QGIS.</figcaption></figure>
     <figure><img src="../images/Portfolio%20Images/Arson%20Project/Image%2011.png" alt="Arson spatial analysis in QGIS" /><figcaption>Geospatial view of the modeled arson patterns.</figcaption></figure>
-
     <h2>Key Takeaways</h2>
-    <div class="results"><ul>
-        <li><strong>KMeans</strong> provided a simple partition of the incidents into four spatial groups.</li>
-        <li><strong>DBSCAN</strong> offered a more flexible view of the data by identifying dense regions without requiring a cluster count and separating noise.</li>
-        <li><strong>Distance selection matters</strong> for geographic data; Haversine distance better represents separation between latitude/longitude coordinates.</li>
-        <li><strong>Visualization is critical</strong> for geospatial analytics. QGIS made the model outputs substantially easier to interpret in geographic context.</li>
-    </ul></div>
+    <div class="results"><ul><li><strong>KMeans</strong> provided a simple partition of the incidents into four spatial groups.</li><li><strong>DBSCAN</strong> offered a more flexible view of the data by identifying dense regions without requiring a cluster count and separating noise.</li><li><strong>Distance selection matters</strong> for geographic data; Haversine distance better represents separation between latitude/longitude coordinates.</li><li><strong>Visualization is critical</strong> for geospatial analytics. QGIS made the model outputs substantially easier to interpret in geographic context.</li></ul></div>
     <p>This project was an exploration of geospatial analytics and clustering methodology. The models identify statistical patterns in reported incidents; they should not be interpreted as causal explanations or predictions of future crime.</p>
 </article>
 </div>
 <script src="../assets/js/jquery.min.js"></script>
 <script src="../assets/js/jquery.poptrox.min.js"></script>
 <script src="../assets/js/browser.min.js"></script>
-<script src="../assets/js/breakpoints.min.js"></script>
 <script src="../assets/js/util.js"></script>
-<script src="../assets/js/main.js"></script>
+<script src="../assets/js/main.js?v=2"></script>
 </body>
 </html>
