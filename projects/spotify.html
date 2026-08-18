@@ -30,16 +30,13 @@
     <h1>My Own Spotify Wrapped</h1>
     <p class="project-lede">A personal analytics project recreating and extending Spotify Wrapped using my own listening history. I combined SQL and R to compare listening behavior by plays and by total time spent.</p>
     <p class="project-meta"><strong>Tools:</strong> SQL Server &bull; R &bull; RODBC &bull; ggplot2 &bull; JSON</p>
-
     <h2>Overview</h2>
     <p>Spotify's annual Wrapped experience summarizes a user's listening habits, but the underlying listening-history data contains enough detail to build a more customized analysis. I used Spotify's exported data to answer questions about listening volume, unique artists and tracks, and my top artists and songs.</p>
     <p>The central question became whether <strong>number of plays</strong> or <strong>time spent listening</strong> gives a better picture of my listening habits. This distinction matters because songs vary dramatically in length.</p>
-
     <h2>Getting the Data</h2>
     <p>Spotify allows users to request their historical listening data through their privacy settings. The export contains JSON files with the timestamp, artist, track, and milliseconds played for each listening event. My export contained roughly <strong>30,600 streams</strong> across four streaming-history files.</p>
     <figure><img src="../images/Portfolio%20Images/Spotify%20Project/Image%201.png" alt="Spotify data request process" /><figcaption>Requesting personal listening data from Spotify.</figcaption></figure>
     <figure><img src="../images/Portfolio%20Images/Spotify%20Project/Image%202.png" alt="Spotify streaming history files" /><figcaption>Streaming-history files included in the Spotify data export.</figcaption></figure>
-
     <h2>Loading the Data into SQL</h2>
     <p>I loaded each JSON file into SQL Server and converted the nested JSON records into a relational table. This created a single <code>ListeningHistory</code> table that could be queried consistently throughout the analysis.</p>
     <pre><code>DECLARE @JSON varchar(MAX);
@@ -59,7 +56,6 @@ WITH (
     [msPlayed] int
 );</code></pre>
     <figure><img src="../images/Portfolio%20Images/Spotify%20Project/Image%203.png" alt="Spotify listening data in SQL Server" /><figcaption>Listening history loaded into SQL Server.</figcaption></figure>
-
     <h2>Cleaning &amp; Initial Analysis</h2>
     <p>I removed podcast entries so the analysis focused exclusively on music. I also removed plays shorter than 10 seconds, treating those events as skips rather than meaningful listening sessions.</p>
     <pre><code>DELETE FROM ListeningHistory
@@ -72,7 +68,6 @@ SELECT
 FROM ListeningHistory;</code></pre>
     <p>The cleaned dataset contained <strong>1,125 unique artists</strong> and <strong>5,088 unique tracks</strong>, with an average of approximately <strong>145 seconds per play</strong>.</p>
     <figure><img src="../images/Portfolio%20Images/Spotify%20Project/Image%204.png" alt="Initial Spotify data analysis" /><figcaption>Initial analysis of the cleaned listening history.</figcaption></figure>
-
     <h2>Connecting SQL and R</h2>
     <p>For the more involved analysis I connected R directly to SQL Server using RODBC. This allowed SQL queries to feed directly into R objects and made it easy to combine database aggregation with visualization and cumulative calculations.</p>
     <pre><code>library(RODBC)
@@ -83,7 +78,6 @@ Spotify_Data &lt;- sqlQuery(
     "SELECT * FROM ListeningHistory"
 )</code></pre>
     <figure><img src="../images/Portfolio%20Images/Spotify%20Project/Image%205.jpeg" alt="Spotify data imported into R" /><figcaption>Listening history available in R for further analysis.</figcaption></figure>
-
     <h2>Top Artists: Plays vs. Time</h2>
     <p>I calculated the top 10 artists by number of plays and tracked their cumulative totals throughout the year. I then repeated the analysis using total milliseconds listened rather than play count.</p>
     <pre><code>top_artists &lt;- sqlQuery(con,
@@ -94,19 +88,11 @@ Spotify_Data &lt;- sqlQuery(
     <figure><img src="../images/Portfolio%20Images/Spotify%20Project/Image%206.jpeg" alt="Cumulative artist plays" /><figcaption>Cumulative listening volume for the top artists by number of plays.</figcaption></figure>
     <p>The rankings changed noticeably when switching from plays to time. Longer songs, particularly metal tracks, accumulated far more listening time than their play counts suggested.</p>
     <figure><img src="../images/Portfolio%20Images/Spotify%20Project/Image%207.jpeg" alt="Cumulative artist listening time" /><figcaption>Cumulative listening time for the top artists.</figcaption></figure>
-
     <h2>Top Tracks</h2>
     <p>I repeated the same comparison for individual tracks. The difference between the two ranking methods became even more pronounced: shorter tracks could accumulate many plays quickly, while long tracks could dominate when measured by total listening time.</p>
     <figure><img src="../images/Portfolio%20Images/Spotify%20Project/Image%208.jpeg" alt="Top tracks comparison" /><figcaption>Top-track analysis comparing listening behavior across the year.</figcaption></figure>
-
     <h2>Key Findings</h2>
-    <div class="results"><ul>
-        <li><strong>Play count and listening time tell different stories.</strong> Rankings changed substantially when switching the metric.</li>
-        <li><strong>Track length introduces a strong bias.</strong> Shorter rap and punk songs can accumulate plays much faster than long metal tracks.</li>
-        <li><strong>Time-based rankings better captured the prominence of long-form listening.</strong> Several metal artists moved substantially higher when measured by total time.</li>
-        <li><strong>The distinction was even stronger at the track level.</strong> The play-based top 10 favored shorter songs, while the time-based ranking favored longer tracks.</li>
-    </ul></div>
-
+    <div class="results"><ul><li><strong>Play count and listening time tell different stories.</strong> Rankings changed substantially when switching the metric.</li><li><strong>Track length introduces a strong bias.</strong> Shorter rap and punk songs can accumulate plays much faster than long metal tracks.</li><li><strong>Time-based rankings better captured the prominence of long-form listening.</strong> Several metal artists moved substantially higher when measured by total time.</li><li><strong>The distinction was even stronger at the track level.</strong> The play-based top 10 favored shorter songs, while the time-based ranking favored longer tracks.</li></ul></div>
     <h2>Future Directions</h2>
     <p>A natural extension would be to enrich the listening history with genre and track-length data. That would allow analysis by genre, normalize listening into fractional plays, and more directly reproduce the genre-oriented analysis found in Spotify Wrapped.</p>
 </article>
@@ -114,8 +100,7 @@ Spotify_Data &lt;- sqlQuery(
 <script src="../assets/js/jquery.min.js"></script>
 <script src="../assets/js/jquery.poptrox.min.js"></script>
 <script src="../assets/js/browser.min.js"></script>
-<script src="../assets/js/breakpoints.min.js"></script>
 <script src="../assets/js/util.js"></script>
-<script src="../assets/js/main.js"></script>
+<script src="../assets/js/main.js?v=2"></script>
 </body>
 </html>
