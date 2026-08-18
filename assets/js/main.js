@@ -97,21 +97,20 @@
 		$(nav).find('li').css({ 'margin': '0.75em 0' });
 		$(nav).find('a').css({ 'font-size': '1.2em', 'text-decoration': 'none' });
 
-		// Same analytical graphic as the main page, rendered directly so it works on project pages too.
-		var graphic = document.createElement('div');
-		graphic.id = 'sidebar-graphic';
-		graphic.setAttribute('aria-hidden', 'true');
-		graphic.innerHTML = '<svg viewBox="0 0 150 110" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-			'<path d="M12 88H138M12 88V18" stroke="currentColor" stroke-width="1.5"/>' +
-			'<path d="M20 75L43 61L62 67L84 43L104 51L132 23" stroke="currentColor" stroke-width="2"/>' +
-			'<circle cx="43" cy="61" r="3" fill="currentColor"/>' +
-			'<circle cx="84" cy="43" r="3" fill="currentColor"/>' +
-			'<circle cx="132" cy="23" r="3" fill="currentColor"/>' +
-			'<path d="M24 42L31 35L38 42M116 72L123 65L130 72" stroke="currentColor" stroke-width="1.5"/>' +
-			'</svg>';
-		$inner.append(graphic);
-		$(graphic).css({ 'margin': '2.5em auto 0', 'width': '150px', 'height': '110px', 'opacity': '.8' });
-		$(graphic).find('svg').css({ 'width': '100%', 'height': '100%' });
+		// Use the personal photo in every sidebar.
+		var photo = document.createElement('img');
+		photo.id = 'sidebar-photo';
+		photo.src = basePath + 'images/Self Photo.jpeg';
+		photo.alt = 'Mitchell Christensen';
+		$inner.append(photo);
+		$(photo).css({
+			'display': 'block',
+			'width': '150px',
+			'height': '180px',
+			'object-fit': 'cover',
+			'margin': '2.5em auto 0',
+			'border-radius': '4px'
+		});
 	});
 
 	if (document.getElementById('project-content')) {
